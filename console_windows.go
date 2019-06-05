@@ -4,7 +4,8 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-const CONSOLE_MODE uint32 = windows.ENABLE_WINDOW_INPUT | windows.ENABLE_MOUSE_INPUT | windows.ENABLE_PROCESSED_INPUT
+const CONSOLE_MODE uint32 = windows.ENABLE_WINDOW_INPUT | windows.ENABLE_MOUSE_INPUT | windows.ENABLE_PROCESSED_INPUT |
+	windows.ENABLE_VIRTUAL_TERMINAL_INPUT
 
 var (
 	Stdin = windows.Stdin
@@ -65,6 +66,11 @@ func RuneStream() (ch chan rune, cancel func()) {
 	return
 }
 
+func ReadRune() (r rune, err error) {
+	err = Rune(&r)
+	return
+}
+
 func ReadRunes(delim rune) chan rune {
 	rs, cancel := RuneStream()
 	ch := make(chan rune)
@@ -99,6 +105,11 @@ func ByteStream() (ch chan byte, cancel func()) {
 			}
 		}
 	}()
+	return
+}
+
+func ReadByte() (b byte, err error) {
+	err = Byte(&b)
 	return
 }
 
