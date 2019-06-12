@@ -23,7 +23,7 @@ func ResetConsole(mode uint32) func() {
 	}
 }
 
-func ReadConsole(handle windows.Handle) (buf uint16, err error) {
+func ReadChar() (buf uint16, err error) {
 	var (
 		toread       uint32 = 1
 		read         uint32
@@ -34,13 +34,13 @@ func ReadConsole(handle windows.Handle) (buf uint16, err error) {
 }
 
 func Byte(b *byte) (err error) {
-	buf, err := ReadConsole(Stdin)
+	buf, err := ReadChar()
 	*b = byte(buf)
 	return
 }
 
 func Rune(r *rune) (err error) {
-	buf, err := ReadConsole(Stdin)
+	buf, err := ReadChar()
 	*r = rune(buf)
 	return
 }
