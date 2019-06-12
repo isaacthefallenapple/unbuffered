@@ -72,15 +72,11 @@ func ReadRune() (r rune, err error) {
 }
 
 func ReadRunes(delim rune) chan rune {
-	rs, cancel := RuneStream()
 	ch := make(chan rune)
 	go func() {
 		defer close(ch)
-		for r := range rs {
-			if r == delim {
-				cancel()
-				return
-			}
+		var r rune
+		for Rune(&r) == nil && r != delim {
 			ch <- r
 		}
 	}()
@@ -114,15 +110,11 @@ func ReadByte() (b byte, err error) {
 }
 
 func ReadBytes(delim byte) chan byte {
-	bs, cancel := ByteStream()
 	ch := make(chan byte)
 	go func() {
 		defer close(ch)
-		for b := range bs {
-			if b == delim {
-				cancel()
-				return
-			}
+		var b byte
+		for Byte(&b) == nil && b != delim {
 			ch <- b
 		}
 	}()
