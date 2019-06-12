@@ -120,3 +120,29 @@ func ReadBytes(delim byte) chan byte {
 	}()
 	return ch
 }
+
+type Stream struct {
+	v uint16
+	err error
+}
+
+func NewStream() *Stream {
+	return &Stream{}
+}
+
+func (s *Stream) Next() {
+	s.v, s.err = ReadChar()
+}
+
+func (s *Stream) Rune() rune {
+	return rune(s.v)
+}
+
+func (s *Stream) Byte() byte {
+	return byte(s.v)
+}
+
+func (s *Stream) Err() error {
+	return s.err
+}
+
